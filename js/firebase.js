@@ -5,20 +5,19 @@
 
 // ── 1. FIREBASE CONFIG ──────────────────────────
 // Vào console.firebase.google.com → Project settings → copy vào đây
-const FIREBASE_CONFIG = {
-  apiKey:            "YOUR_API_KEY",
-  authDomain:        "YOUR_PROJECT.firebaseapp.com",
-  projectId:         "YOUR_PROJECT_ID",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId:             "YOUR_APP_ID"
-  // storageBucket KHÔNG cần nữa — dùng Cloudinary rồi
+const firebaseConfig = {
+  apiKey: "AIzaSyAeta2OpaREqXxqbf2-NQd1MMgP-SbotYc",
+  authDomain: "lylom-nghichngom.firebaseapp.com",
+  projectId: "lylom-nghichngom",
+  messagingSenderId: "270721069522",
+  appId: "1:270721069522:web:7e6ef1f8e6133b5667180b",
 };
 
 // ── 2. CLOUDINARY CONFIG ────────────────────────
 // Vào cloudinary.com → Dashboard → copy 3 thứ này
 const CLOUDINARY = {
-  cloudName: "YOUR_CLOUD_NAME",       // vd: "lylom-nghichngo"
-  uploadPreset: "YOUR_UPLOAD_PRESET", // tạo ở bước hướng dẫn bên dưới
+  cloudName: "dimpfrkgf",       // vd: "lylom-nghichngo"
+  uploadPreset: "lylom_upload", // tạo ở bước hướng dẫn bên dưới
 };
 // LƯU Ý: Không cần API Key/Secret ở frontend — chỉ cần cloudName + uploadPreset
 
