@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload · Lỳ Lợm & Nghịch Ngợm</title>
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    .admin-wrap { max-width: 640px; margin: 0 auto; padding: 3rem 2rem 6rem; }
+    .auth-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2.5rem;
+      text-align: center;
+      max-width: 360px;
+      margin: 4rem auto;
+    }
+    .auth-box h2 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      background: var(--gradient-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+    .auth-box p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+    .upload-form { display: flex; flex-direction: column; gap: 1.25rem; }
+    .queue-list { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
+    .queue-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+    }
+    .queue-thumb {
+      width: 52px; height: 52px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      flex-shrink: 0;
+    }
+    .queue-info { flex: 1; min-width: 0; }
+    .queue-name { font-size: 0.82rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .queue-size { font-size: 0.73rem; color: var(--text-muted); }
+    .queue-remove {
+      width: 28px; height: 28px;
+      border: 1px solid var(--border-color);
+      background: transparent;
+      border-radius: 50%;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.8rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: var(--transition);
+    }
+    .queue-remove:hover { border-color: #ff4444; color: #ff4444; }
+    .upload-result {
+      background: var(--tag-bg);
+      border: 1px solid var(--tag-border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      display: none;
+    }
+    .upload-result.show { display: block; }
+    #user-bar {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 1rem;
+      background: var(--tag-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+    }
+    #user-bar.show { display: flex; }
+    #upload-section { display: none; }
+    #upload-section.show { display: block; }
+  </style>
+</head>
+<body>
+
+<div id="loading">
+  <div class="loading-logo">Upload 📷</div>
+  <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
+</div>
+<div id="cursor"><div id="cursor-dot"></div><div id="cursor-ring"></div></div>
+<canvas id="particle-canvas"></canvas>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">Lỳ Lợm & Nghịch Ngợm</a>
+  <ul class="nav-links">
+    <li><a href="index.html">🏠 Trang chủ</a></li>
+    <li><a href="gallery.html">🖼️ Gallery</a></li>
+    <li><a href="journey.html">🗺️ Hành trình</a></li>
+    <li><a href="about.html">💌 Về chúng mình</a></li>
+    <li><a href="slideshow.html">✨ Slideshow</a></li>
+    <li><a href="admin.html" class="active">⬆️ Upload</a></li>
+  </ul>
+  <div class="nav-right">
+    <div style="position:relative">
+      <button id="theme-btn">💕 Anniversary ▾</button>
+      <div id="theme-panel"></div>
+    </div>
+    <button id="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<main>
+  <div class="page-header">
+    <h1>Upload ảnh</h1>
+    <p>Thêm khoảnh khắc mới vào gallery của chúng mình 💕</p>
+  </div>
+
+  <div class="admin-wrap">
+
+    <!-- LOGIN BOX — shown when not logged in -->
+    <div id="auth-box" class="auth-box">
+      <h2>Đăng nhập</h2>
+      <p>Chỉ Lỳ Lợm & Nghịch Ngợm mới upload được nhé 💕</p>
+      <div style="display:flex;flex-direction:column;gap:1rem">
+        <div class="input-group">
+          <label class="input-label">Email</label>
+          <input type="email" id="login-email" class="input-field" placeholder="email@gmail.com">
+        </div>
+        <div class="input-group">
+          <label class="input-label">Mật khẩu</label>
+          <input type="password" id="login-password" class="input-field" placeholder="••••••••">
+        </div>
+        <div id="login-error" style="font-size:0.82rem;color:#ff4444;display:none"></div>
+        <button class="btn btn-primary" id="login-btn" style="width:100%">Đăng nhập 💕</button>
+      </div>
+    </div>
+
+    <!-- UPLOAD SECTION — shown when logged in -->
+    <div id="upload-section">
+      <div id="user-bar">
+        <span id="user-email-display"></span>
+        <button class="btn btn-ghost" id="logout-btn" style="padding:0.3rem 0.9rem;font-size:0.78rem">Đăng xuất</button>
+      </div>
+
+      <div class="upload-form">
+
+        <!-- DRAG & DROP ZONE -->
+        <div class="upload-zone" id="upload-zone">
+          <div class="upload-zone-icon">📸</div>
+          <div class="upload-zone-text">Kéo thả ảnh vào đây</div>
+          <div class="upload-zone-sub">hoặc click để chọn · JPG, PNG, WEBP · tối đa 10MB/ảnh</div>
+          <input type="file" id="file-input" accept="image/*" multiple style="position:absolute;inset:0;opacity:0;cursor:pointer">
+        </div>
+
+        <!-- QUEUE -->
+        <div id="queue-list" class="queue-list"></div>
+
+        <!-- METADATA -->
+        <div class="input-group">
+          <label class="input-label">Chú thích (cho tất cả ảnh)</label>
+          <input type="text" id="caption-input" class="input-field" placeholder="Ngày đẹp bên nhau 💕">
+        </div>
+        <div class="input-group">
+          <label class="input-label">Ngày chụp</label>
+          <input type="date" id="date-input" class="input-field">
+        </div>
+        <div class="input-group">
+          <label class="input-label">Tags (cách nhau bởi dấu phẩy)</label>
+          <input type="text" id="tags-input" class="input-field" placeholder="hẹn hò, du lịch, sinh nhật">
+        </div>
+        <div class="input-group">
+          <label class="input-label">Người upload</label>
+          <select id="uploader-input" class="input-field">
+            <option value="Lỳ Lợm">Lỳ Lợm</option>
+            <option value="Nghịch Ngợm">Nghịch Ngợm</option>
+          </select>
+        </div>
+
+        <!-- PROGRESS -->
+        <div id="progress-wrap" style="display:none">
+          <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar"></div></div>
+          <div style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;text-align:center" id="progress-text">Đang upload...</div>
+        </div>
+
+        <button class="btn btn-primary" id="upload-btn" style="width:100%" disabled>
+          ⬆️ Upload ảnh
+        </button>
+
+        <div class="upload-result" id="upload-result"></div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <p>Làm với <span class="footer-heart">💕</span> bởi Lỳ Lợm & Nghịch Ngợm</p>
+</footer>
+
+<script type="module">
+  import { login, logout, onAuth, uploadPhoto, deletePhoto } from './js/firebase.js';
+  import { showToast } from './js/main.js';
+
+  let fileQueue = [];
+
+  // ── SET TODAY DATE ──
+  document.getElementById('date-input').valueAsDate = new Date();
+
+  // ── AUTH STATE ──────────────────────────────
+  onAuth(user => {
+    if (user) {
+      document.getElementById('auth-box').style.display = 'none';
+      document.getElementById('upload-section').classList.add('show');
+      const bar = document.getElementById('user-bar');
+      bar.classList.add('show');
+      document.getElementById('user-email-display').textContent = '👤 ' + user.email;
+    } else {
+      document.getElementById('auth-box').style.display = 'block';
+      document.getElementById('upload-section').classList.remove('show');
+    }
+  });
+
+  // ── LOGIN ───────────────────────────────────
+  document.getElementById('login-btn').addEventListener('click', async () => {
+    const email = document.getElementById('login-email').value.trim();
+    const pass  = document.getElementById('login-password').value;
+    const errEl = document.getElementById('login-error');
+    errEl.style.display = 'none';
+    try {
+      await login(email, pass);
+    } catch(e) {
+      errEl.textContent = 'Email hoặc mật khẩu không đúng.';
+      errEl.style.display = 'block';
+    }
+  });
+  document.getElementById('login-password').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('login-btn').click();
+  });
+  document.getElementById('logout-btn').addEventListener('click', async () => {
+    await logout();
+    showToast('Đã đăng xuất');
+  });
+
+  // ── FILE QUEUE ──────────────────────────────
+  const zone = document.getElementById('upload-zone');
+  const fileInput = document.getElementById('file-input');
+
+  fileInput.addEventListener('change', () => addFiles(Array.from(fileInput.files)));
+
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.classList.remove('drag-over');
+    addFiles(Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/')));
+  });
+
+  function addFiles(files) {
+    files.forEach(f => {
+      if (f.size > 10 * 1024 * 1024) { showToast(`${f.name} quá 10MB, bỏ qua`); return; }
+      if (!fileQueue.find(q => q.name === f.name && q.size === f.size)) fileQueue.push(f);
+    });
+    renderQueue();
+    fileInput.value = '';
+  }
+
+  function renderQueue() {
+    const list = document.getElementById('queue-list');
+    list.innerHTML = '';
+    fileQueue.forEach((f, i) => {
+      const item = document.createElement('div');
+      item.className = 'queue-item';
+      const url = URL.createObjectURL(f);
+      item.innerHTML = `
+        <img class="queue-thumb" src="${url}" alt="${f.name}">
+        <div class="queue-info">
+          <div class="queue-name">${f.name}</div>
+          <div class="queue-size">${(f.size / 1024 / 1024).toFixed(2)} MB</div>
+        </div>
+        <button class="queue-remove" data-idx="${i}">✕</button>
+      `;
+      item.querySelector('.queue-remove').addEventListener('click', () => {
+        fileQueue.splice(i, 1);
+        renderQueue();
+      });
+      list.appendChild(item);
+    });
+    document.getElementById('upload-btn').disabled = fileQueue.length === 0;
+  }
+
+  // ── UPLOAD ──────────────────────────────────
+  document.getElementById('upload-btn').addEventListener('click', async () => {
+    if (fileQueue.length === 0) return;
+    const caption   = document.getElementById('caption-input').value.trim();
+    const date      = document.getElementById('date-input').value || new Date().toISOString().slice(0,10);
+    const tags      = document.getElementById('tags-input').value.split(',').map(t => t.trim()).filter(Boolean);
+    const uploader  = document.getElementById('uploader-input').value;
+
+    const btn = document.getElementById('upload-btn');
+    btn.disabled = true;
+    btn.textContent = 'Đang upload...';
+    const progWrap = document.getElementById('progress-wrap');
+    const progBar  = document.getElementById('progress-bar');
+    const progText = document.getElementById('progress-text');
+    progWrap.style.display = 'block';
+
+    let success = 0;
+    for (let i = 0; i < fileQueue.length; i++) {
+      const f = fileQueue[i];
+      progText.textContent = `Đang upload ${i+1}/${fileQueue.length}: ${f.name}`;
+      try {
+        await uploadPhoto(f, { caption, date, tags, uploadedBy: uploader }, pct => {
+          const overall = ((i / fileQueue.length) + pct / 100 / fileQueue.length) * 100;
+          progBar.style.width = overall + '%';
+        });
+        success++;
+      } catch(e) { showToast(`Lỗi khi upload ${f.name}`); }
+    }
+
+    progBar.style.width = '100%';
+    progText.textContent = `Hoàn tất! Đã upload ${success}/${fileQueue.length} ảnh ✓`;
+    btn.textContent = '✓ Upload hoàn tất!';
+
+    const result = document.getElementById('upload-result');
+    result.textContent = `✓ Đã thêm ${success} ảnh vào gallery thành công!`;
+    result.classList.add('show');
+
+    fileQueue = [];
+    renderQueue();
+    setTimeout(() => {
+      btn.disabled = false;
+      btn.textContent = '⬆️ Upload ảnh';
+      result.classList.remove('show');
+      progWrap.style.display = 'none';
+      progBar.style.width = '0';
+    }, 4000);
+  });
+</script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

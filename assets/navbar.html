@@ -1,0 +1,47 @@
+<!-- NAVBAR — paste vào đầu <body> của mỗi trang -->
+<div id="loading">
+  <div class="loading-logo">Lỳ Lợm & Nghịch Ngợm 💕</div>
+  <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
+</div>
+
+<div id="cursor">
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+</div>
+
+<canvas id="particle-canvas"></canvas>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">Lỳ Lợm & Nghịch Ngợm</a>
+
+  <ul class="nav-links">
+    <li><a href="index.html">🏠 Trang chủ</a></li>
+    <li><a href="gallery.html">🖼️ Gallery</a></li>
+    <li><a href="journey.html">🗺️ Hành trình</a></li>
+    <li><a href="about.html">💌 Về chúng mình</a></li>
+    <li><a href="slideshow.html">✨ Slideshow</a></li>
+    <li><a href="admin.html">⬆️ Upload</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <div style="position:relative">
+      <button id="theme-btn">💕 Anniversary ▾</button>
+      <div id="theme-panel"></div>
+    </div>
+    <button id="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Lightbox -->
+<div id="lightbox">
+  <button id="lightbox-close">✕</button>
+  <button id="lightbox-prev">‹</button>
+  <img id="lightbox-img" src="" alt="">
+  <button id="lightbox-next">›</button>
+  <div id="lightbox-info">
+    <div id="lightbox-caption"></div>
+    <div id="lightbox-date"></div>
+  </div>
+</div>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slideshow · Lỳ Lợm & Nghịch Ngợm</title>
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    body { overflow: hidden; }
+    #slideshow {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 0;
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+    .slide.active { opacity: 1; }
+    .slide img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.05);
+      transition: transform 8s ease;
+    }
+    .slide.active img { transform: scale(1); }
+    .slide-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.3) 100%);
+    }
+
+    /* UI OVERLAY */
+    #ui {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.5rem 2rem;
+    }
+    #ui-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: all;
+    }
+    .ss-logo {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      background: var(--gradient-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+    .ss-controls { display: flex; align-items: center; gap: 0.75rem; }
+    .ss-btn {
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+      backdrop-filter: blur(8px);
+    }
+    .ss-btn:hover { background: rgba(255,255,255,0.25); }
+    .ss-btn.active { background: var(--accent-1); border-color: var(--accent-1); }
+
+    #ui-bottom { pointer-events: all; }
+    .ss-info {
+      animation: fadeUp 0.6s ease;
+    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+    .ss-caption {
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 3vw, 2rem);
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+      margin-bottom: 0.4rem;
+    }
+    .ss-date {
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* PROGRESS BAR */
+    #progress-track {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: rgba(255,255,255,0.15);
+      z-index: 101;
+    }
+    #progress-fill {
+      height: 100%;
+      background: var(--gradient-accent);
+      width: 0;
+      transition: none;
+    }
+
+    /* DOTS */
+    .ss-dots {
+      display: flex;
+      gap: 6px;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    .ss-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .ss-dot.active { background: var(--accent-2); transform: scale(1.4); }
+
+    /* COUNTER */
+    .ss-counter {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.1em;
+      margin-top: 0.5rem;
+    }
+
+    /* EMPTY */
+    #ss-empty {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1rem;
+      color: var(--text-muted);
+      z-index: 200;
+    }
+    #ss-empty.show { display: flex; }
+    #ss-empty .icon { font-size: 3rem; opacity: 0.4; }
+
+    /* FULLSCREEN hint */
+    #fs-hint {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.7);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 16px;
+      padding: 1.25rem 2rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.7);
+      z-index: 200;
+      pointer-events: none;
+      animation: fadeIn 0.4s ease, fadeOut 0.4s ease 2.5s forwards;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeOut { to { opacity: 0; } }
+  </style>
+</head>
+<body>
+
+<canvas id="particle-canvas" style="z-index:50;opacity:0.3"></canvas>
+
+<div id="slideshow"></div>
+<div id="progress-track"><div id="progress-fill"></div></div>
+
+<div id="ui">
+  <div id="ui-top">
+    <a href="index.html" class="ss-logo">Lỳ Lợm & Nghịch Ngợm 💕</a>
+    <div class="ss-controls">
+      <button class="ss-btn" id="btn-prev" title="Trước">‹</button>
+      <button class="ss-btn active" id="btn-play" title="Dừng/Tiếp">⏸</button>
+      <button class="ss-btn" id="btn-next" title="Tiếp">›</button>
+      <button class="ss-btn" id="btn-fs" title="Toàn màn hình">⛶</button>
+      <button class="ss-btn" id="btn-theme" title="Chủ đề" style="font-size:0.8rem;width:auto;padding:0 0.75rem;border-radius:100px">💕 Theme</button>
+    </div>
+  </div>
+
+  <div id="ui-bottom">
+    <div class="ss-info" id="ss-info">
+      <div class="ss-caption" id="ss-caption"></div>
+      <div class="ss-date" id="ss-date"></div>
+    </div>
+    <div class="ss-dots" id="ss-dots"></div>
+    <div class="ss-counter" id="ss-counter"></div>
+  </div>
+</div>
+
+<div id="ss-empty">
+  <div class="icon">📷</div>
+  <div style="font-size:1.1rem;font-weight:600;color:var(--text-secondary)">Chưa có ảnh nào</div>
+  <div style="font-size:0.9rem">Hãy <a href="admin.html" style="color:var(--accent-2)">upload ảnh</a> trước nhé!</div>
+</div>
+
+<div id="theme-panel" style="position:fixed;top:70px;right:2rem;z-index:200"></div>
+
+<script type="module">
+  import { formatDate, showToast } from './js/main.js';
+  import { getPhotos } from './js/firebase.js';
+
+  const INTERVAL = 5000;
+  let photos = [], current = 0, playing = true, timer = null, progressTimer = null, progressStart = 0;
+
+  async function init() {
+    try { photos = await getPhotos(); } catch(e) { photos = []; }
+    if (photos.length === 0) { document.getElementById('ss-empty').classList.add('show'); return; }
+    buildSlides();
+    buildDots();
+    showSlide(0);
+    startPlay();
+  }
+
+  function buildSlides() {
+    const ss = document.getElementById('slideshow');
+    photos.forEach((p, i) => {
+      const slide = document.createElement('div');
+      slide.className = 'slide';
+      slide.id = `slide-${i}`;
+      slide.innerHTML = `<img src="${p.url}" alt="${p.caption||''}"><div class="slide-overlay"></div>`;
+      ss.appendChild(slide);
+    });
+  }
+
+  function buildDots() {
+    const dots = document.getElementById('ss-dots');
+    dots.innerHTML = '';
+    const max = Math.min(photos.length, 20);
+    for (let i = 0; i < max; i++) {
+      const d = document.createElement('div');
+      d.className = 'ss-dot';
+      d.addEventListener('click', () => { goTo(i); });
+      dots.appendChild(d);
+    }
+  }
+
+  function showSlide(idx) {
+    document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.ss-dot').forEach(d => d.classList.remove('active'));
+    const slide = document.getElementById(`slide-${idx}`);
+    if (slide) slide.classList.add('active');
+    const dot = document.querySelectorAll('.ss-dot')[idx];
+    if (dot) dot.classList.add('active');
+    const p = photos[idx];
+    document.getElementById('ss-caption').textContent = p.caption || '';
+    document.getElementById('ss-date').textContent = p.date ? formatDate(p.date) : '';
+    document.getElementById('ss-counter').textContent = `${idx + 1} / ${photos.length}`;
+    // Re-animate info
+    const info = document.getElementById('ss-info');
+    info.style.animation = 'none';
+    info.offsetHeight;
+    info.style.animation = 'fadeUp 0.6s ease';
+  }
+
+  function goTo(idx) {
+    current = (idx + photos.length) % photos.length;
+    showSlide(current);
+    resetProgress();
+  }
+
+  function startPlay() {
+    playing = true;
+    document.getElementById('btn-play').textContent = '⏸';
+    document.getElementById('btn-play').classList.add('active');
+    timer = setInterval(() => { goTo(current + 1); }, INTERVAL);
+    startProgress();
+  }
+
+  function pausePlay() {
+    playing = false;
+    document.getElementById('btn-play').textContent = '▶';
+    document.getElementById('btn-play').classList.remove('active');
+    clearInterval(timer);
+    clearInterval(progressTimer);
+  }
+
+  function resetProgress() {
+    const fill = document.getElementById('progress-fill');
+    fill.style.transition = 'none';
+    fill.style.width = '0';
+    setTimeout(() => {
+      if (playing) startProgress();
+    }, 50);
+  }
+
+  function startProgress() {
+    const fill = document.getElementById('progress-fill');
+    fill.style.transition = `width ${INTERVAL}ms linear`;
+    fill.style.width = '100%';
+  }
+
+  document.getElementById('btn-play').addEventListener('click', () => { playing ? pausePlay() : startPlay(); });
+  document.getElementById('btn-prev').addEventListener('click', () => { pausePlay(); goTo(current - 1); });
+  document.getElementById('btn-next').addEventListener('click', () => { pausePlay(); goTo(current + 1); });
+  document.getElementById('btn-fs').addEventListener('click', () => {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  });
+  document.getElementById('btn-theme').addEventListener('click', () => {
+    const panel = document.getElementById('theme-panel');
+    panel.classList.toggle('open');
+  });
+
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft')  { pausePlay(); goTo(current - 1); }
+    if (e.key === 'ArrowRight') { pausePlay(); goTo(current + 1); }
+    if (e.key === ' ')          { playing ? pausePlay() : startPlay(); }
+    if (e.key === 'Escape')     { window.location.href = 'index.html'; }
+  });
+
+  // Touch swipe
+  let touchX = 0;
+  document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; });
+  document.addEventListener('touchend', e => {
+    const dx = touchX - e.changedTouches[0].clientX;
+    if (Math.abs(dx) > 50) { pausePlay(); goTo(current + (dx > 0 ? 1 : -1)); }
+  });
+
+  init();
+</script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

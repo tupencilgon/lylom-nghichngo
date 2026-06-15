@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery · Lỳ Lợm & Nghịch Ngợm</title>
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    .gallery-toolbar {
+      position: sticky;
+      top: 64px;
+      z-index: 100;
+      background: var(--navbar-blur);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .toolbar-left { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+    .toolbar-right { display: flex; align-items: center; gap: 0.75rem; }
+    #photo-count { font-size: 0.8rem; color: var(--text-muted); }
+
+    .filter-btn {
+      padding: 0.35rem 1rem;
+      border-radius: 100px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border-color);
+      background: transparent;
+      color: var(--text-muted);
+      transition: var(--transition);
+      font-family: var(--font-body);
+      white-space: nowrap;
+    }
+    .filter-btn.active {
+      background: var(--tag-bg);
+      border-color: var(--accent-1);
+      color: var(--text-primary);
+    }
+    .filter-btn:hover:not(.active) { color: var(--text-secondary); border-color: var(--accent-2); }
+
+    #gallery-content { min-height: 60vh; padding-top: 1.5rem; }
+
+    /* loading spinner */
+    .spinner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6rem 2rem;
+      gap: 0.75rem;
+      color: var(--text-muted);
+    }
+    .spinner-ring {
+      width: 24px; height: 24px;
+      border: 2px solid var(--border-color);
+      border-top-color: var(--accent-1);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Admin delete button (shows only when logged in) */
+    .photo-card .delete-btn {
+      position: absolute;
+      top: 0.5rem; right: 0.5rem;
+      width: 28px; height: 28px;
+      background: rgba(255,0,0,0.7);
+      border: none;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: background 0.2s;
+    }
+    .photo-card .delete-btn:hover { background: rgba(255,0,0,0.95); }
+    body.is-admin .photo-card .delete-btn { display: flex; }
+  </style>
+</head>
+<body>
+
+<div id="loading">
+  <div class="loading-logo">Gallery 🖼️</div>
+  <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
+</div>
+<div id="cursor"><div id="cursor-dot"></div><div id="cursor-ring"></div></div>
+<canvas id="particle-canvas"></canvas>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">Lỳ Lợm & Nghịch Ngợm</a>
+  <ul class="nav-links">
+    <li><a href="index.html">🏠 Trang chủ</a></li>
+    <li><a href="gallery.html" class="active">🖼️ Gallery</a></li>
+    <li><a href="journey.html">🗺️ Hành trình</a></li>
+    <li><a href="about.html">💌 Về chúng mình</a></li>
+    <li><a href="slideshow.html">✨ Slideshow</a></li>
+    <li><a href="admin.html">⬆️ Upload</a></li>
+  </ul>
+  <div class="nav-right">
+    <div style="position:relative">
+      <button id="theme-btn">💕 Anniversary ▾</button>
+      <div id="theme-panel"></div>
+    </div>
+    <button id="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<main>
+  <div class="page-header">
+    <h1>Gallery</h1>
+    <p>Tất cả những khoảnh khắc của chúng mình 📷</p>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div class="gallery-toolbar">
+    <div class="toolbar-left">
+      <!-- Year tabs — built by JS -->
+      <div id="year-tabs" class="year-tabs" style="padding:0;margin:0"></div>
+      <!-- Month filter — shows in month view -->
+      <div id="month-filters" style="display:none;gap:0.4rem;flex-wrap:wrap;display:flex"></div>
+    </div>
+    <div class="toolbar-right">
+      <span id="photo-count"></span>
+      <div class="view-toggle">
+        <button class="view-btn active" id="btn-grid" onclick="switchView('grid')">⊞ Tất cả</button>
+        <button class="view-btn" id="btn-month" onclick="switchView('month')">📅 Tháng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GALLERY CONTENT -->
+  <div id="gallery-content">
+    <div class="spinner"><div class="spinner-ring"></div> Đang tải ảnh...</div>
+  </div>
+</main>
+
+<footer>
+  <p>Làm với <span class="footer-heart">💕</span> bởi Lỳ Lợm & Nghịch Ngợm</p>
+</footer>
+
+<div id="lightbox">
+  <button id="lightbox-close">✕</button>
+  <button id="lightbox-prev">‹</button>
+  <img id="lightbox-img" src="" alt="">
+  <button id="lightbox-next">›</button>
+  <div id="lightbox-info">
+    <div id="lightbox-caption"></div>
+    <div id="lightbox-date"></div>
+  </div>
+</div>
+
+<script type="module">
+  import { formatDate, openLightbox, groupByMonthYear, getUniqueYears, monthName, showToast } from './js/main.js';
+  import { getPhotos, deletePhoto, onAuth } from './js/firebase.js';
+
+  const MONTHS_VI = ['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6',
+                     'Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'];
+
+  let allPhotos = [];
+  let currentView = 'grid';
+  let selectedYear = 'all';
+  let isAdmin = false;
+
+  onAuth(user => { isAdmin = !!user; if(user) document.body.classList.add('is-admin'); });
+
+  // ── LOAD PHOTOS ──────────────────────────────
+  async function loadPhotos() {
+    document.getElementById('gallery-content').innerHTML =
+      '<div class="spinner"><div class="spinner-ring"></div> Đang tải ảnh...</div>';
+    try {
+      allPhotos = await getPhotos();
+    } catch(e) {
+      allPhotos = [];
+    }
+    buildYearTabs();
+    renderGallery();
+  }
+
+  // ── YEAR TABS ────────────────────────────────
+  function buildYearTabs() {
+    const container = document.getElementById('year-tabs');
+    const years = getUniqueYears(allPhotos);
+    container.innerHTML = '';
+
+    const allBtn = document.createElement('button');
+    allBtn.className = 'year-tab' + (selectedYear === 'all' ? ' active' : '');
+    allBtn.textContent = 'Tất cả';
+    allBtn.onclick = () => { selectedYear = 'all'; buildYearTabs(); renderGallery(); };
+    container.appendChild(allBtn);
+
+    years.forEach(y => {
+      const btn = document.createElement('button');
+      btn.className = 'year-tab' + (selectedYear === y ? ' active' : '');
+      btn.textContent = y;
+      btn.onclick = () => { selectedYear = y; buildYearTabs(); renderGallery(); };
+      container.appendChild(btn);
+    });
+  }
+
+  // ── RENDER ───────────────────────────────────
+  function getFilteredPhotos() {
+    if (selectedYear === 'all') return allPhotos;
+    return allPhotos.filter(p => p.date.getFullYear() === selectedYear);
+  }
+
+  window.switchView = function(view) {
+    currentView = view;
+    document.getElementById('btn-grid').classList.toggle('active', view === 'grid');
+    document.getElementById('btn-month').classList.toggle('active', view === 'month');
+    renderGallery();
+  };
+
+  function makeCard(photo, index, photos) {
+    const card = document.createElement('div');
+    card.className = 'photo-card reveal';
+    card.innerHTML = `
+      <img src="${photo.url}" alt="${photo.caption || ''}" loading="lazy">
+      <div class="photo-card-overlay">
+        <div class="photo-card-date">${formatDate(photo.date)}</div>
+        <div class="photo-card-caption">${photo.caption || ''}</div>
+      </div>
+      <button class="delete-btn" title="Xóa ảnh">✕</button>
+    `;
+    card.querySelector('img').addEventListener('click', () => openLightbox(photos, index));
+    card.querySelector('.photo-card-overlay').addEventListener('click', () => openLightbox(photos, index));
+    card.querySelector('.delete-btn').addEventListener('click', async e => {
+      e.stopPropagation();
+      if (!confirm('Xóa ảnh này?')) return;
+      try {
+
+        card.remove();
+        allPhotos = allPhotos.filter(p => p.id !== photo.id);
+        updateCount();
+        showToast('Đã xóa ảnh ✓');
+      } catch(err) { showToast('Lỗi khi xóa ảnh'); }
+    });
+    return card;
+  }
+
+  function updateCount() {
+    const photos = getFilteredPhotos();
+    document.getElementById('photo-count').textContent = `${photos.length} ảnh`;
+  }
+
+  function renderGallery() {
+    const content = document.getElementById('gallery-content');
+    const photos  = getFilteredPhotos();
+    updateCount();
+
+    if (photos.length === 0) {
+      content.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">📷</div>
+          <div class="empty-state-text">Chưa có ảnh nào</div>
+          <div class="empty-state-sub">Hãy <a href="admin.html" style="color:var(--accent-2)">upload ảnh đầu tiên</a> nhé!</div>
+        </div>`;
+      return;
+    }
+
+    if (currentView === 'grid') {
+      const grid = document.createElement('div');
+      grid.className = 'gallery-grid';
+      photos.forEach((p, i) => grid.appendChild(makeCard(p, i, photos)));
+      content.innerHTML = '';
+      content.appendChild(grid);
+    } else {
+      content.innerHTML = '';
+      const groups = groupByMonthYear(photos);
+      groups.forEach(group => {
+        const section = document.createElement('div');
+        section.className = 'month-group';
+        section.innerHTML = `
+          <div class="month-header reveal">
+            <span class="month-name">${MONTHS_VI[group.month]} ${group.year}</span>
+            <span class="month-count">${group.photos.length} ảnh</span>
+          </div>
+        `;
+        const grid = document.createElement('div');
+        grid.className = 'month-grid';
+        group.photos.forEach((p, i) => grid.appendChild(makeCard(p, i, group.photos)));
+        section.appendChild(grid);
+        content.appendChild(section);
+      });
+    }
+
+    // Scroll reveal for new cards
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    content.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  }
+
+  loadPhotos();
+</script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+/* ═══════════════════════════════════════════════
+   THEMES.CSS — 6 Seasonal Themes
+   Lỳ Lợm & Nghịch Ngợm
+═══════════════════════════════════════════════ */
+
+/* ── DEFAULT / ANNIVERSARY ── */
+:root {
+  --bg-primary: #0d0508;
+  --bg-secondary: #1a0810;
+  --bg-card: #1f0c14;
+  --bg-card-hover: #2a1020;
+  --accent-1: #e8305a;
+  --accent-2: #f7a8bb;
+  --accent-3: #ffd700;
+  --accent-4: #ff6b8a;
+  --text-primary: #fff5f7;
+  --text-secondary: #f7a8bb;
+  --text-muted: rgba(247,168,187,0.5);
+  --border-color: rgba(232,48,90,0.3);
+  --border-img: #e8305a;
+  --glow: rgba(232,48,90,0.4);
+  --particle-color: #e8305a;
+  --gradient-hero: linear-gradient(135deg, #0d0508 0%, #1a0810 50%, #0d0508 100%);
+  --gradient-accent: linear-gradient(135deg, #e8305a, #ffd700);
+  --gradient-text: linear-gradient(135deg, #fff5f7, #f7a8bb, #ffd700);
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'Quicksand', sans-serif;
+  --theme-emoji: '💕';
+  --theme-name: 'Anniversary';
+  --navbar-blur: rgba(13,5,8,0.85);
+  --scrollbar-color: #e8305a;
+  --tag-bg: rgba(232,48,90,0.15);
+  --tag-border: rgba(232,48,90,0.4);
+  --shadow-card: 0 8px 40px rgba(232,48,90,0.15);
+  --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── TẾT NGUYÊN ĐÁN ── */
+[data-theme="tet"] {
+  --bg-primary: #0a0500;
+  --bg-secondary: #1a0800;
+  --bg-card: #1f0c00;
+  --bg-card-hover: #2a1400;
+  --accent-1: #ff3000;
+  --accent-2: #ffd700;
+  --accent-3: #ff8c00;
+  --accent-4: #ffec6e;
+  --text-primary: #fff9f0;
+  --text-secondary: #ffd700;
+  --text-muted: rgba(255,215,0,0.5);
+  --border-color: rgba(255,48,0,0.35);
+  --border-img: #ffd700;
+  --glow: rgba(255,48,0,0.45);
+  --particle-color: #ff3000;
+  --gradient-hero: linear-gradient(135deg, #0a0500 0%, #1a0800 50%, #0a0500 100%);
+  --gradient-accent: linear-gradient(135deg, #ff3000, #ffd700);
+  --gradient-text: linear-gradient(135deg, #fff9f0, #ffd700, #ff8c00);
+  --theme-emoji: '🧧';
+  --theme-name: 'Tết Nguyên Đán';
+  --navbar-blur: rgba(10,5,0,0.85);
+  --scrollbar-color: #ff3000;
+  --tag-bg: rgba(255,48,0,0.12);
+  --tag-border: rgba(255,215,0,0.4);
+  --shadow-card: 0 8px 40px rgba(255,48,0,0.15);
+}
+
+/* ── TẾT TRUNG THU ── */
+[data-theme="trungthu"] {
+  --bg-primary: #050510;
+  --bg-secondary: #0a0a20;
+  --bg-card: #0e0e28;
+  --bg-card-hover: #161638;
+  --accent-1: #ff8c00;
+  --accent-2: #ffcc44;
+  --accent-3: #c084fc;
+  --accent-4: #ffa040;
+  --text-primary: #fff8f0;
+  --text-secondary: #ffcc44;
+  --text-muted: rgba(255,204,68,0.5);
+  --border-color: rgba(255,140,0,0.3);
+  --border-img: #ffcc44;
+  --glow: rgba(255,140,0,0.4);
+  --particle-color: #ffcc44;
+  --gradient-hero: linear-gradient(135deg, #050510 0%, #0f0820 50%, #050510 100%);
+  --gradient-accent: linear-gradient(135deg, #ff8c00, #c084fc);
+  --gradient-text: linear-gradient(135deg, #fff8f0, #ffcc44, #ff8c00);
+  --theme-emoji: '🏮';
+  --theme-name: 'Tết Trung Thu';
+  --navbar-blur: rgba(5,5,16,0.85);
+  --scrollbar-color: #ff8c00;
+  --tag-bg: rgba(255,140,0,0.12);
+  --tag-border: rgba(255,204,68,0.4);
+  --shadow-card: 0 8px 40px rgba(255,140,0,0.15);
+}
+
+/* ── LỄ TÌNH NHÂN ── */
+[data-theme="valentine"] {
+  --bg-primary: #06010a;
+  --bg-secondary: #110418;
+  --bg-card: #160520;
+  --bg-card-hover: #1e082c;
+  --accent-1: #ff3399;
+  --accent-2: #ff99cc;
+  --accent-3: #cc44ff;
+  --accent-4: #ffb3d9;
+  --text-primary: #fff0fa;
+  --text-secondary: #ff99cc;
+  --text-muted: rgba(255,153,204,0.5);
+  --border-color: rgba(255,51,153,0.3);
+  --border-img: #ff3399;
+  --glow: rgba(255,51,153,0.45);
+  --particle-color: #ff3399;
+  --gradient-hero: linear-gradient(135deg, #06010a 0%, #110418 50%, #06010a 100%);
+  --gradient-accent: linear-gradient(135deg, #ff3399, #cc44ff);
+  --gradient-text: linear-gradient(135deg, #fff0fa, #ff99cc, #cc44ff);
+  --theme-emoji: '💝';
+  --theme-name: 'Lễ Tình Nhân';
+  --navbar-blur: rgba(6,1,10,0.85);
+  --scrollbar-color: #ff3399;
+  --tag-bg: rgba(255,51,153,0.12);
+  --tag-border: rgba(255,153,204,0.4);
+  --shadow-card: 0 8px 40px rgba(255,51,153,0.15);
+}
+
+/* ── GIÁNG SINH ── */
+[data-theme="christmas"] {
+  --bg-primary: #010a03;
+  --bg-secondary: #021408;
+  --bg-card: #031a0a;
+  --bg-card-hover: #052410;
+  --accent-1: #ff2424;
+  --accent-2: #44dd66;
+  --accent-3: #ffffff;
+  --accent-4: #ffdd44;
+  --text-primary: #f0fff4;
+  --text-secondary: #44dd66;
+  --text-muted: rgba(68,221,102,0.5);
+  --border-color: rgba(255,36,36,0.3);
+  --border-img: #44dd66;
+  --glow: rgba(68,221,102,0.35);
+  --particle-color: #ff2424;
+  --gradient-hero: linear-gradient(135deg, #010a03 0%, #021408 50%, #010a03 100%);
+  --gradient-accent: linear-gradient(135deg, #ff2424, #44dd66);
+  --gradient-text: linear-gradient(135deg, #f0fff4, #44dd66, #ffdd44);
+  --theme-emoji: '🎄';
+  --theme-name: 'Giáng Sinh';
+  --navbar-blur: rgba(1,10,3,0.85);
+  --scrollbar-color: #ff2424;
+  --tag-bg: rgba(68,221,102,0.1);
+  --tag-border: rgba(68,221,102,0.35);
+  --shadow-card: 0 8px 40px rgba(68,221,102,0.12);
+}
+
+/* ── BIRTHDAY ── */
+[data-theme="birthday"] {
+  --bg-primary: #030310;
+  --bg-secondary: #080820;
+  --bg-card: #0c0c28;
+  --bg-card-hover: #121235;
+  --accent-1: #ff6b35;
+  --accent-2: #ffd23f;
+  --accent-3: #06d6a0;
+  --accent-4: #a855f7;
+  --text-primary: #fffbf0;
+  --text-secondary: #ffd23f;
+  --text-muted: rgba(255,210,63,0.5);
+  --border-color: rgba(255,107,53,0.3);
+  --border-img: #ffd23f;
+  --glow: rgba(255,107,53,0.4);
+  --particle-color: #ff6b35;
+  --gradient-hero: linear-gradient(135deg, #030310 0%, #080820 50%, #030310 100%);
+  --gradient-accent: linear-gradient(135deg, #ff6b35, #a855f7);
+  --gradient-text: linear-gradient(135deg, #fffbf0, #ffd23f, #06d6a0, #a855f7);
+  --theme-emoji: '🎂';
+  --theme-name: 'Birthday';
+  --navbar-blur: rgba(3,3,16,0.85);
+  --scrollbar-color: #ffd23f;
+  --tag-bg: rgba(255,107,53,0.12);
+  --tag-border: rgba(255,210,63,0.35);
+  --shadow-card: 0 8px 40px rgba(255,107,53,0.15);
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-color); border-radius: 2px; }
