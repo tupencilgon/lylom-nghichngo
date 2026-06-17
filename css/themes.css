@@ -23,7 +23,7 @@
   --gradient-hero: linear-gradient(135deg, #fff5f7 0%, #ffe3ea 50%, #fff5f7 100%);
   --gradient-accent: linear-gradient(135deg, #e8305a, #d4af37);
   --gradient-text: linear-gradient(135deg, #c9184a, #e8305a, #d4af37);
-  --font-display: 'Cherry Bomb One', system-ui;
+  --font-display: 'Coiny', system-ui;
   --font-body: 'Nunito', sans-serif;
   --theme-emoji: '💕';
   --theme-name: 'Anniversary';
