@@ -13,6 +13,10 @@ const THEMES = [
   { id: 'birthday',    label: 'Birthday',       emoji: '🎂', dot: '#ffd23f' },
 ];
 
+export function getThemeEmoji() {
+  return THEMES.find(t => t.id === currentTheme)?.emoji || '💕';
+}
+
 let currentTheme = localStorage.getItem('theme') || 'anniversary';
 
 function applyTheme(id, animate = true) {
@@ -29,6 +33,8 @@ function applyTheme(id, animate = true) {
   updateParticleColor();
   updateCursorImage();
   renderThemeDecor();
+  const loginIcon = document.getElementById('login-btn-icon');
+  if (loginIcon) loginIcon.textContent = getThemeEmoji();
   if (animate) spawnThemeSparkles();
 }
 

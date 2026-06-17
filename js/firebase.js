@@ -5,7 +5,7 @@
 
 // ── 1. FIREBASE CONFIG ──────────────────────────
 // Vào console.firebase.google.com → Project settings → copy vào đây
-const firebaseConfig = {
+const FIREBASE_CONFIG = {
   apiKey: "AIzaSyAeta2OpaREqXxqbf2-NQd1MMgP-SbotYc",
   authDomain: "lylom-nghichngom.firebaseapp.com",
   projectId: "lylom-nghichngom",
@@ -34,11 +34,15 @@ const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
 // ── CHỈ 2 EMAIL NÀY ĐƯỢC UPLOAD ─────────────────
-// Điền email Google thật của Lỳ Lợm & Nghịch Ngợm vào đây
-const ALLOWED_EMAILS = [
-  "lylomemail@gmail.com",
-  "nghichngomemail@gmail.com",
-];
+export const ALLOWED_USERS = {
+  "tu.pencilgon@gmail.com":      "Nghịch Ngợm",
+  "hoangthikimanh9402@gmail.com": "Lỳ Lợm",
+};
+const ALLOWED_EMAILS = Object.keys(ALLOWED_USERS);
+
+export function getDisplayName(email) {
+  return ALLOWED_USERS[email] || email;
+}
 
 // ── AUTH ─────────────────────────────────────────
 export async function login(email, password) {

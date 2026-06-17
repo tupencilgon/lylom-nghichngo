@@ -103,12 +103,12 @@
 <nav id="navbar">
   <a href="index.html" class="nav-logo">Lỳ Lợm & Nghịch Ngợm</a>
   <ul class="nav-links">
-    <li><a href="index.html">🏠 Trang chủ</a></li>
-    <li><a href="gallery.html">🖼️ Gallery</a></li>
-    <li><a href="journey.html">🗺️ Hành trình</a></li>
-    <li><a href="about.html">💌 Về chúng mình</a></li>
-    <li><a href="slideshow.html">✨ Slideshow</a></li>
-    <li><a href="admin.html" class="active">⬆️ Upload</a></li>
+    <li><a href="index.html">Trang chủ</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="journey.html">Hành trình</a></li>
+    <li><a href="about.html">Về chúng mình</a></li>
+    <li><a href="slideshow.html">Slideshow</a></li>
+    <li><a href="admin.html" class="active">Upload</a></li>
   </ul>
   <div class="nav-right">
     <div style="position:relative">
@@ -141,7 +141,7 @@
           <input type="password" id="login-password" class="input-field" placeholder="••••••••">
         </div>
         <div id="login-error" style="font-size:0.82rem;color:#ff4444;display:none"></div>
-        <button class="btn btn-primary" id="login-btn" style="width:100%">Đăng nhập 💕</button>
+        <button class="btn btn-primary" id="login-btn" style="width:100%;justify-content:center">Đăng nhập <span id="login-btn-icon">💕</span></button>
         <div style="display:flex;align-items:center;gap:0.75rem;margin:0.25rem 0">
           <div style="flex:1;height:1px;background:var(--border-color)"></div>
           <span style="font-size:0.75rem;color:var(--text-muted)">hoặc</span>
@@ -207,7 +207,7 @@
         </div>
 
         <button class="btn btn-primary" id="upload-btn" style="width:100%" disabled>
-          ⬆️ Upload ảnh
+          Upload ảnh
         </button>
 
         <div class="upload-result" id="upload-result"></div>
@@ -222,7 +222,7 @@
 </footer>
 
 <script type="module">
-  import { login, loginWithGoogle, logout, onAuth, uploadPhoto, deletePhoto } from './js/firebase.js';
+  import { login, loginWithGoogle, logout, onAuth, uploadPhoto, deletePhoto, getDisplayName } from './js/firebase.js';
   import { showToast } from './js/main.js';
 
   let fileQueue = [];
@@ -231,16 +231,28 @@
   document.getElementById('date-input').valueAsDate = new Date();
 
   // ── AUTH STATE ──────────────────────────────
+  let lastUserEmail = null;
   onAuth(user => {
     if (user) {
+      const name = getDisplayName(user.email);
       document.getElementById('auth-box').style.display = 'none';
       document.getElementById('upload-section').classList.add('show');
       const bar = document.getElementById('user-bar');
       bar.classList.add('show');
-      document.getElementById('user-email-display').textContent = '👤 ' + user.email;
+      document.getElementById('user-email-display').textContent = '👋 Chào ' + name;
+      // Uploader dropdown defaults to the logged-in person
+      const uploaderSelect = document.getElementById('uploader-input');
+      if (uploaderSelect && [...uploaderSelect.options].some(o => o.value === name)) {
+        uploaderSelect.value = name;
+      }
+      if (lastUserEmail !== user.email) {
+        showToast(`Chào ${name} 💕`);
+      }
+      lastUserEmail = user.email;
     } else {
       document.getElementById('auth-box').style.display = 'block';
       document.getElementById('upload-section').classList.remove('show');
+      lastUserEmail = null;
     }
   });
 
@@ -370,7 +382,7 @@
     renderQueue();
     setTimeout(() => {
       btn.disabled = false;
-      btn.textContent = '⬆️ Upload ảnh';
+      btn.textContent = 'Upload ảnh';
       result.classList.remove('show');
       progWrap.style.display = 'none';
       progBar.style.width = '0';
