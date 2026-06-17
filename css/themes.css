@@ -3,184 +3,431 @@
    Lỳ Lợm & Nghịch Ngợm
 ═══════════════════════════════════════════════ */
 
-/* ── DEFAULT / ANNIVERSARY ── */
+/* ── DEFAULT / ANNIVERSARY — light pink pattern bg ── */
 :root {
-  --bg-primary: #0d0508;
-  --bg-secondary: #1a0810;
-  --bg-card: #1f0c14;
-  --bg-card-hover: #2a1020;
+  --bg-primary: #fff5f7;
+  --bg-secondary: #ffeaf0;
+  --bg-card: #ffffff;
+  --bg-card-hover: #fff0f4;
   --accent-1: #e8305a;
-  --accent-2: #f7a8bb;
-  --accent-3: #ffd700;
-  --accent-4: #ff6b8a;
-  --text-primary: #fff5f7;
-  --text-secondary: #f7a8bb;
-  --text-muted: rgba(247,168,187,0.5);
-  --border-color: rgba(232,48,90,0.3);
+  --accent-2: #ff6b8a;
+  --accent-3: #d4af37;
+  --accent-4: #c9184a;
+  --text-primary: #3a0d1a;
+  --text-secondary: #b3294f;
+  --text-muted: rgba(58,13,26,0.55);
+  --border-color: rgba(232,48,90,0.25);
   --border-img: #e8305a;
-  --glow: rgba(232,48,90,0.4);
+  --glow: rgba(232,48,90,0.35);
   --particle-color: #e8305a;
-  --gradient-hero: linear-gradient(135deg, #0d0508 0%, #1a0810 50%, #0d0508 100%);
-  --gradient-accent: linear-gradient(135deg, #e8305a, #ffd700);
-  --gradient-text: linear-gradient(135deg, #fff5f7, #f7a8bb, #ffd700);
+  --gradient-hero: linear-gradient(135deg, #fff5f7 0%, #ffe3ea 50%, #fff5f7 100%);
+  --gradient-accent: linear-gradient(135deg, #e8305a, #d4af37);
+  --gradient-text: linear-gradient(135deg, #c9184a, #e8305a, #d4af37);
   --font-display: 'Playfair Display', serif;
   --font-body: 'Quicksand', sans-serif;
   --theme-emoji: '💕';
   --theme-name: 'Anniversary';
-  --navbar-blur: rgba(13,5,8,0.85);
+  --navbar-blur: rgba(255,245,247,0.85);
   --scrollbar-color: #e8305a;
-  --tag-bg: rgba(232,48,90,0.15);
-  --tag-border: rgba(232,48,90,0.4);
-  --shadow-card: 0 8px 40px rgba(232,48,90,0.15);
+  --tag-bg: rgba(232,48,90,0.1);
+  --tag-border: rgba(232,48,90,0.3);
+  --shadow-card: 0 8px 40px rgba(232,48,90,0.12);
   --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --bg-pattern-url: url('../assets/images/patterns/anni-pattern.svg');
+  --bg-pattern-size: 600px 600px;
+  --bg-pattern-opacity: 1;
+  --cursor-url: url('../assets/images/cursors/vlt-anni.svg');
 }
 
-/* ── TẾT NGUYÊN ĐÁN ── */
+/* ── TẾT NGUYÊN ĐÁN — light warm yellow, gold/red decor ── */
 [data-theme="tet"] {
-  --bg-primary: #0a0500;
-  --bg-secondary: #1a0800;
-  --bg-card: #1f0c00;
-  --bg-card-hover: #2a1400;
-  --accent-1: #ff3000;
-  --accent-2: #ffd700;
-  --accent-3: #ff8c00;
-  --accent-4: #ffec6e;
-  --text-primary: #fff9f0;
-  --text-secondary: #ffd700;
-  --text-muted: rgba(255,215,0,0.5);
-  --border-color: rgba(255,48,0,0.35);
-  --border-img: #ffd700;
-  --glow: rgba(255,48,0,0.45);
-  --particle-color: #ff3000;
-  --gradient-hero: linear-gradient(135deg, #0a0500 0%, #1a0800 50%, #0a0500 100%);
-  --gradient-accent: linear-gradient(135deg, #ff3000, #ffd700);
-  --gradient-text: linear-gradient(135deg, #fff9f0, #ffd700, #ff8c00);
+  --bg-primary: #fdf6e3;
+  --bg-secondary: #fbeec4;
+  --bg-card: #fffaf0;
+  --bg-card-hover: #fff3d9;
+  --accent-1: #d62828;
+  --accent-2: #c08a1f;
+  --accent-3: #f4d271;
+  --accent-4: #e8590c;
+  --text-primary: #4a1c00;
+  --text-secondary: #a8330e;
+  --text-muted: rgba(74,28,0,0.55);
+  --border-color: rgba(214,40,40,0.25);
+  --border-img: #d62828;
+  --glow: rgba(214,40,40,0.3);
+  --particle-color: #d62828;
+  --gradient-hero: linear-gradient(135deg, #fdf6e3 0%, #fbeec4 50%, #fdf6e3 100%);
+  --gradient-accent: linear-gradient(135deg, #d62828, #f4d271);
+  --gradient-text: linear-gradient(135deg, #a8330e, #d62828, #c08a1f);
   --theme-emoji: '🧧';
   --theme-name: 'Tết Nguyên Đán';
-  --navbar-blur: rgba(10,5,0,0.85);
-  --scrollbar-color: #ff3000;
-  --tag-bg: rgba(255,48,0,0.12);
-  --tag-border: rgba(255,215,0,0.4);
-  --shadow-card: 0 8px 40px rgba(255,48,0,0.15);
+  --navbar-blur: rgba(253,246,227,0.85);
+  --scrollbar-color: #d62828;
+  --tag-bg: rgba(214,40,40,0.1);
+  --tag-border: rgba(214,40,40,0.3);
+  --shadow-card: 0 8px 40px rgba(214,40,40,0.12);
+  --bg-pattern-url: none;
+  --bg-pattern-size: 0;
+  --bg-pattern-opacity: 0;
+  --cursor-url: url('../assets/images/cursors/tet.svg');
 }
 
-/* ── TẾT TRUNG THU ── */
+/* ── TẾT TRUNG THU — dark blue/purple, glowing stars + moon ── */
 [data-theme="trungthu"] {
-  --bg-primary: #050510;
-  --bg-secondary: #0a0a20;
-  --bg-card: #0e0e28;
-  --bg-card-hover: #161638;
-  --accent-1: #ff8c00;
-  --accent-2: #ffcc44;
+  --bg-primary: #0a0a2e;
+  --bg-secondary: #131340;
+  --bg-card: #161650;
+  --bg-card-hover: #1d1d60;
+  --accent-1: #ffcc44;
+  --accent-2: #ffe9a8;
   --accent-3: #c084fc;
-  --accent-4: #ffa040;
-  --text-primary: #fff8f0;
-  --text-secondary: #ffcc44;
-  --text-muted: rgba(255,204,68,0.5);
-  --border-color: rgba(255,140,0,0.3);
+  --accent-4: #ff8c00;
+  --text-primary: #fff8e0;
+  --text-secondary: #ffd966;
+  --text-muted: rgba(255,217,102,0.5);
+  --border-color: rgba(255,204,68,0.25);
   --border-img: #ffcc44;
-  --glow: rgba(255,140,0,0.4);
-  --particle-color: #ffcc44;
-  --gradient-hero: linear-gradient(135deg, #050510 0%, #0f0820 50%, #050510 100%);
-  --gradient-accent: linear-gradient(135deg, #ff8c00, #c084fc);
-  --gradient-text: linear-gradient(135deg, #fff8f0, #ffcc44, #ff8c00);
+  --glow: rgba(255,204,68,0.4);
+  --particle-color: #ffe9a8;
+  --gradient-hero: linear-gradient(180deg, #0a0a2e 0%, #181850 60%, #0a0a2e 100%);
+  --gradient-accent: linear-gradient(135deg, #ffcc44, #c084fc);
+  --gradient-text: linear-gradient(135deg, #fff8e0, #ffcc44, #c084fc);
   --theme-emoji: '🏮';
   --theme-name: 'Tết Trung Thu';
-  --navbar-blur: rgba(5,5,16,0.85);
-  --scrollbar-color: #ff8c00;
-  --tag-bg: rgba(255,140,0,0.12);
-  --tag-border: rgba(255,204,68,0.4);
-  --shadow-card: 0 8px 40px rgba(255,140,0,0.15);
+  --navbar-blur: rgba(10,10,46,0.85);
+  --scrollbar-color: #ffcc44;
+  --tag-bg: rgba(255,204,68,0.12);
+  --tag-border: rgba(255,204,68,0.35);
+  --shadow-card: 0 8px 40px rgba(255,204,68,0.15);
+  --bg-pattern-url: none;
+  --bg-pattern-size: 0;
+  --bg-pattern-opacity: 0;
+  --cursor-url: url('../assets/images/cursors/trungthu.svg');
 }
 
-/* ── LỄ TÌNH NHÂN ── */
+/* ── LỄ TÌNH NHÂN — light pink/red pattern bg ── */
 [data-theme="valentine"] {
-  --bg-primary: #06010a;
-  --bg-secondary: #110418;
-  --bg-card: #160520;
-  --bg-card-hover: #1e082c;
+  --bg-primary: #fff0f5;
+  --bg-secondary: #ffe1ec;
+  --bg-card: #ffffff;
+  --bg-card-hover: #ffeaf2;
   --accent-1: #ff3399;
-  --accent-2: #ff99cc;
+  --accent-2: #cc1166;
   --accent-3: #cc44ff;
-  --accent-4: #ffb3d9;
-  --text-primary: #fff0fa;
-  --text-secondary: #ff99cc;
-  --text-muted: rgba(255,153,204,0.5);
-  --border-color: rgba(255,51,153,0.3);
+  --accent-4: #ff0050;
+  --text-primary: #4a0026;
+  --text-secondary: #cc1166;
+  --text-muted: rgba(74,0,38,0.55);
+  --border-color: rgba(255,51,153,0.25);
   --border-img: #ff3399;
-  --glow: rgba(255,51,153,0.45);
+  --glow: rgba(255,51,153,0.35);
   --particle-color: #ff3399;
-  --gradient-hero: linear-gradient(135deg, #06010a 0%, #110418 50%, #06010a 100%);
+  --gradient-hero: linear-gradient(135deg, #fff0f5 0%, #ffe1ec 50%, #fff0f5 100%);
   --gradient-accent: linear-gradient(135deg, #ff3399, #cc44ff);
-  --gradient-text: linear-gradient(135deg, #fff0fa, #ff99cc, #cc44ff);
+  --gradient-text: linear-gradient(135deg, #cc1166, #ff3399, #cc44ff);
   --theme-emoji: '💝';
   --theme-name: 'Lễ Tình Nhân';
-  --navbar-blur: rgba(6,1,10,0.85);
+  --navbar-blur: rgba(255,240,245,0.85);
   --scrollbar-color: #ff3399;
-  --tag-bg: rgba(255,51,153,0.12);
-  --tag-border: rgba(255,153,204,0.4);
-  --shadow-card: 0 8px 40px rgba(255,51,153,0.15);
+  --tag-bg: rgba(255,51,153,0.1);
+  --tag-border: rgba(255,51,153,0.3);
+  --shadow-card: 0 8px 40px rgba(255,51,153,0.12);
+  --bg-pattern-url: url('../assets/images/patterns/vlt-pattern.svg');
+  --bg-pattern-size: 600px 400px;
+  --bg-pattern-opacity: 1;
+  --cursor-url: url('../assets/images/cursors/vlt-anni.svg');
 }
 
-/* ── GIÁNG SINH ── */
+/* ── GIÁNG SINH — dark, snowfall ── */
 [data-theme="christmas"] {
-  --bg-primary: #010a03;
-  --bg-secondary: #021408;
-  --bg-card: #031a0a;
-  --bg-card-hover: #052410;
+  --bg-primary: #050f12;
+  --bg-secondary: #07181c;
+  --bg-card: #0a1f24;
+  --bg-card-hover: #0e2a30;
   --accent-1: #ff2424;
   --accent-2: #44dd66;
   --accent-3: #ffffff;
   --accent-4: #ffdd44;
   --text-primary: #f0fff4;
-  --text-secondary: #44dd66;
-  --text-muted: rgba(68,221,102,0.5);
-  --border-color: rgba(255,36,36,0.3);
+  --text-secondary: #5fe585;
+  --text-muted: rgba(95,229,133,0.5);
+  --border-color: rgba(68,221,102,0.25);
   --border-img: #44dd66;
-  --glow: rgba(68,221,102,0.35);
-  --particle-color: #ff2424;
-  --gradient-hero: linear-gradient(135deg, #010a03 0%, #021408 50%, #010a03 100%);
+  --glow: rgba(68,221,102,0.3);
+  --particle-color: #ffffff;
+  --gradient-hero: linear-gradient(180deg, #050f12 0%, #08222a 60%, #050f12 100%);
   --gradient-accent: linear-gradient(135deg, #ff2424, #44dd66);
   --gradient-text: linear-gradient(135deg, #f0fff4, #44dd66, #ffdd44);
   --theme-emoji: '🎄';
   --theme-name: 'Giáng Sinh';
-  --navbar-blur: rgba(1,10,3,0.85);
-  --scrollbar-color: #ff2424;
+  --navbar-blur: rgba(5,15,18,0.85);
+  --scrollbar-color: #44dd66;
   --tag-bg: rgba(68,221,102,0.1);
-  --tag-border: rgba(68,221,102,0.35);
+  --tag-border: rgba(68,221,102,0.3);
   --shadow-card: 0 8px 40px rgba(68,221,102,0.12);
+  --bg-pattern-url: none;
+  --bg-pattern-size: 0;
+  --bg-pattern-opacity: 0;
+  --cursor-url: url('../assets/images/cursors/christmas.svg');
 }
 
-/* ── BIRTHDAY ── */
+/* ── BIRTHDAY — png photo background ── */
 [data-theme="birthday"] {
-  --bg-primary: #030310;
-  --bg-secondary: #080820;
-  --bg-card: #0c0c28;
-  --bg-card-hover: #121235;
+  --bg-primary: #1a0f2e;
+  --bg-secondary: #241540;
+  --bg-card: #2a1850;
+  --bg-card-hover: #331e60;
   --accent-1: #ff6b35;
   --accent-2: #ffd23f;
   --accent-3: #06d6a0;
   --accent-4: #a855f7;
   --text-primary: #fffbf0;
   --text-secondary: #ffd23f;
-  --text-muted: rgba(255,210,63,0.5);
+  --text-muted: rgba(255,210,63,0.55);
   --border-color: rgba(255,107,53,0.3);
   --border-img: #ffd23f;
   --glow: rgba(255,107,53,0.4);
   --particle-color: #ff6b35;
-  --gradient-hero: linear-gradient(135deg, #030310 0%, #080820 50%, #030310 100%);
+  --gradient-hero: linear-gradient(135deg, rgba(26,15,46,0.4) 0%, rgba(36,21,64,0.3) 50%, rgba(26,15,46,0.5) 100%);
   --gradient-accent: linear-gradient(135deg, #ff6b35, #a855f7);
   --gradient-text: linear-gradient(135deg, #fffbf0, #ffd23f, #06d6a0, #a855f7);
   --theme-emoji: '🎂';
   --theme-name: 'Birthday';
-  --navbar-blur: rgba(3,3,16,0.85);
+  --navbar-blur: rgba(26,15,46,0.78);
   --scrollbar-color: #ffd23f;
-  --tag-bg: rgba(255,107,53,0.12);
+  --tag-bg: rgba(255,107,53,0.15);
   --tag-border: rgba(255,210,63,0.35);
-  --shadow-card: 0 8px 40px rgba(255,107,53,0.15);
+  --shadow-card: 0 8px 40px rgba(255,107,53,0.18);
+  --bg-pattern-url: none;
+  --bg-pattern-size: 0;
+  --bg-pattern-opacity: 0;
+  --cursor-url: url('../assets/images/cursors/birthday.svg');
 }
 
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg-primary); }
 ::-webkit-scrollbar-thumb { background: var(--scrollbar-color); border-radius: 2px; }
+
+/* ═══════════════════════════════════════════════
+   BACKGROUND LAYER SYSTEM
+   #theme-bg is a fixed full-screen layer behind content
+═══════════════════════════════════════════════ */
+#theme-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background-color: var(--bg-primary);
+  transition: background-color 0.6s ease;
+  overflow: hidden;
+}
+
+/* Pattern layer (Anni / VLT — tiling SVG) */
+#theme-bg .bg-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: var(--bg-pattern-url);
+  background-size: var(--bg-pattern-size) var(--bg-pattern-size);
+  background-repeat: repeat;
+  opacity: var(--bg-pattern-opacity);
+  transition: opacity 0.6s ease;
+}
+
+/* Birthday PNG background */
+#theme-bg .bg-photo {
+  position: absolute;
+  inset: 0;
+  background-image: none;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+[data-theme="birthday"] #theme-bg .bg-photo {
+  background-image: url('../assets/images/patterns/bd-background.png');
+  opacity: 1;
+}
+[data-theme="birthday"] #theme-bg .bg-photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(26,15,46,0.35) 0%, rgba(26,15,46,0.15) 40%, rgba(26,15,46,0.55) 100%);
+}
+
+/* Trung Thu sky layer: stars + moon */
+#theme-bg .bg-sky {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+[data-theme="trungthu"] #theme-bg .bg-sky { opacity: 1; }
+
+.tt-moon {
+  position: absolute;
+  top: 6%;
+  right: 8%;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 35%, #fffbe6 0%, #ffe9a8 45%, #ffd966 75%, #f4c430 100%);
+  box-shadow: 0 0 60px 20px rgba(255,233,168,0.5), 0 0 140px 60px rgba(255,217,102,0.25);
+  animation: moonGlow 6s ease-in-out infinite;
+}
+@keyframes moonGlow {
+  0%, 100% { box-shadow: 0 0 60px 20px rgba(255,233,168,0.5), 0 0 140px 60px rgba(255,217,102,0.25); }
+  50% { box-shadow: 0 0 80px 30px rgba(255,233,168,0.65), 0 0 180px 80px rgba(255,217,102,0.35); }
+}
+@media (max-width: 768px) {
+  .tt-moon { width: 120px; height: 120px; top: 4%; right: 6%; }
+}
+
+.tt-star {
+  position: absolute;
+  background: #ffe9a8;
+  border-radius: 50%;
+  box-shadow: 0 0 4px 1px rgba(255,233,168,0.9);
+  animation: starTwinkle ease-in-out infinite;
+}
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* Christmas snow layer */
+#theme-bg .bg-snow {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+  overflow: hidden;
+}
+[data-theme="christmas"] #theme-bg .bg-snow { opacity: 1; }
+
+.snow-dot {
+  position: absolute;
+  background: #ffffff;
+  border-radius: 50%;
+  opacity: 0.7;
+  animation: snowFall linear infinite;
+}
+.snow-flake-svg {
+  position: absolute;
+  opacity: 0.55;
+  animation: snowFall linear infinite, snowSpin linear infinite;
+}
+@keyframes snowFall {
+  0% { transform: translateY(-5vh); }
+  100% { transform: translateY(105vh); }
+}
+@keyframes snowSpin {
+  0% { rotate: 0deg; }
+  100% { rotate: 360deg; }
+}
+
+/* Soft vignette over all backgrounds for readability */
+#theme-bg .bg-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.12) 100%);
+  pointer-events: none;
+}
+[data-theme="tet"] #theme-bg .bg-vignette,
+:root #theme-bg .bg-vignette,
+[data-theme="valentine"] #theme-bg .bg-vignette {
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.04) 100%);
+}
+
+/* ── DECORATIVE FLOATING ELEMENTS (lanterns, santa, tet branches) ── */
+#theme-decor {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.decor-el {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.decor-el.show { opacity: 1; }
+
+/* Lanterns (Trung Thu hanging star lanterns) */
+#lantern-wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+[data-theme="trungthu"] #lantern-wrap { opacity: 1; }
+
+.lantern-star {
+  position: absolute;
+  top: -10px;
+  width: 64px;
+  animation: lanternSway 4s ease-in-out infinite;
+  transform-origin: top center;
+}
+.lantern-string {
+  width: 1px;
+  height: 70px;
+  background: rgba(255,204,68,0.4);
+  margin: 0 auto;
+}
+.lantern-star-svg {
+  width: 100%;
+  filter: drop-shadow(0 0 14px rgba(255,140,0,0.7));
+}
+@keyframes lanternSway {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+@media (max-width: 768px) {
+  .lantern-star { width: 40px; }
+  .lantern-string { height: 45px; }
+}
+
+/* Santa (Christmas key visual) */
+.santa-key {
+  position: absolute;
+  top: 0;
+  right: 4%;
+  width: 160px;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  filter: drop-shadow(0 8px 24px rgba(0,0,0,0.4));
+}
+[data-theme="christmas"] .santa-key { opacity: 1; }
+@media (max-width: 768px) {
+  .santa-key { width: 90px; right: 2%; }
+}
+
+/* Tet decorative branches/elements scattered */
+.tet-decor {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.7s ease;
+  pointer-events: none;
+}
+[data-theme="tet"] .tet-decor { opacity: 0.85; }
+
+.tet-decor.tet-blossom {
+  animation: tetFloat ease-in-out infinite;
+}
+@keyframes tetFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(8deg); }
+}
+.tet-decor.tet-cloud-corner {
+  opacity: 0;
+}
+[data-theme="tet"] .tet-decor.tet-cloud-corner { opacity: 0.6; }
+@media (max-width: 768px) {
+  .tet-decor.tet-blossom { width: 22px !important; }
+  .tet-decor.tet-cloud-corner { width: 160px !important; }
+}

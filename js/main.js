@@ -27,7 +27,9 @@ function applyTheme(id, animate = true) {
   setTimeout(() => document.body.classList.remove('theme-transitioning'), 600);
   updateThemePanel();
   updateParticleColor();
-  spawnThemeSparkles();
+  updateCursorImage();
+  renderThemeDecor();
+  if (animate) spawnThemeSparkles();
 }
 
 function buildThemePanel() {
@@ -65,8 +67,170 @@ function updateThemeBtn() {
   if (t) btn.innerHTML = `${t.emoji} <span>${t.label}</span> ▾`;
 }
 
-// ── CURSOR ──────────────────────────────────────
-let curX = 0, curY = 0, ringX = 0, ringY = 0;
+// ── THEME DECOR (stars, snow, lanterns, santa) ──
+let decorBuilt = { trungthu: false, christmas: false, tet: false };
+
+function renderThemeDecor() {
+  buildTrungThuSky();
+  buildChristmasSnow();
+  buildTetDecor();
+}
+
+function buildTetDecor() {
+  const decorRoot = document.getElementById('theme-decor');
+  if (!decorRoot || decorBuilt.tet) return;
+  decorBuilt.tet = true;
+
+  const blossoms = [
+    'assets/images/decor/tet-5.svg', // cream mai
+    'assets/images/decor/tet-6.svg', // red mai
+    'assets/images/decor/tet-8.svg', // dark red mai
+    'assets/images/decor/tet-7.svg', // gold medallion
+  ];
+
+  // Scatter blossoms loosely around the edges, avoiding center content
+  const positions = [
+    { top: '8%',  left: '4%'  }, { top: '14%', left: '90%' },
+    { top: '38%', left: '2%'  }, { top: '46%', left: '93%' },
+    { top: '70%', left: '5%'  }, { top: '78%', left: '91%' },
+    { top: '92%', left: '12%' }, { top: '95%', left: '80%' },
+  ];
+
+  positions.forEach((pos, i) => {
+    const img = document.createElement('img');
+    img.src = blossoms[i % blossoms.length];
+    img.className = 'tet-decor tet-blossom';
+    img.style.top = pos.top;
+    img.style.left = pos.left;
+    img.style.width = (28 + Math.random() * 26) + 'px';
+    img.style.animationDuration = (5 + Math.random() * 4) + 's';
+    img.style.animationDelay = (Math.random() * -5) + 's';
+    decorRoot.appendChild(img);
+  });
+
+  // Cloud/wave motifs along top and bottom edges
+  const cloudTop = document.createElement('img');
+  cloudTop.src = 'assets/images/decor/tet-4.svg';
+  cloudTop.className = 'tet-decor tet-cloud-corner';
+  cloudTop.style.cssText = 'top:-2%;left:-2%;width:280px;';
+  decorRoot.appendChild(cloudTop);
+
+  const cloudBottom = document.createElement('img');
+  cloudBottom.src = 'assets/images/decor/tet-3.svg';
+  cloudBottom.className = 'tet-decor tet-cloud-corner';
+  cloudBottom.style.cssText = 'bottom:-2%;right:-2%;width:280px;transform:rotate(180deg);';
+  decorRoot.appendChild(cloudBottom);
+}
+
+function buildTrungThuSky() {
+  const sky = document.querySelector('#theme-bg .bg-sky');
+  if (!sky || decorBuilt.trungthu) return;
+  decorBuilt.trungthu = true;
+
+  // Moon
+  const moon = document.createElement('div');
+  moon.className = 'tt-moon';
+  sky.appendChild(moon);
+
+  // Tiny twinkling stars, scattered
+  const starCount = 90;
+  for (let i = 0; i < starCount; i++) {
+    const star = document.createElement('div');
+    star.className = 'tt-star';
+    const size = 1 + Math.random() * 1.8;
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 70 + '%';
+    star.style.animationDuration = (1.5 + Math.random() * 3) + 's';
+    star.style.animationDelay = (Math.random() * 3) + 's';
+    sky.appendChild(star);
+  }
+
+  // Hanging star lanterns (đèn ông sao) along the top
+  const lanternWrap = document.getElementById('lantern-wrap');
+  if (lanternWrap) {
+    const positions = [8, 24, 50, 76, 92];
+    positions.forEach((leftPct, i) => {
+      const lantern = document.createElement('div');
+      lantern.className = 'lantern lantern-star';
+      lantern.style.left = leftPct + '%';
+      lantern.style.animationDelay = (i * 0.4) + 's';
+      lantern.innerHTML = `
+        <div class="lantern-string"></div>
+        <svg viewBox="0 0 100 100" class="lantern-star-svg">
+          <polygon points="50,5 61,38 96,38 67,59 78,92 50,71 22,92 33,59 4,38 39,38"
+                   fill="#ffcc44" stroke="#ff8c00" stroke-width="3"/>
+        </svg>
+      `;
+      lanternWrap.appendChild(lantern);
+    });
+  }
+}
+
+function buildChristmasSnow() {
+  const snowLayer = document.querySelector('#theme-bg .bg-snow');
+  if (!snowLayer || decorBuilt.christmas) return;
+  decorBuilt.christmas = true;
+
+  const snowflakeSvgs = [
+    'assets/images/decor/snowflake-1.svg',
+    'assets/images/decor/snowflake-2.svg',
+    'assets/images/decor/snowflake-3.svg',
+  ];
+
+  // Small plain dots (majority, lightweight)
+  const dotCount = 60;
+  for (let i = 0; i < dotCount; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'snow-dot';
+    const size = 2 + Math.random() * 3;
+    dot.style.width = size + 'px';
+    dot.style.height = size + 'px';
+    dot.style.left = Math.random() * 100 + '%';
+    dot.style.animationDuration = (8 + Math.random() * 10) + 's';
+    dot.style.animationDelay = (Math.random() * -15) + 's';
+    snowLayer.appendChild(dot);
+  }
+
+  // A handful of actual snowflake SVGs, larger, slower
+  const flakeCount = 14;
+  for (let i = 0; i < flakeCount; i++) {
+    const flake = document.createElement('img');
+    flake.src = snowflakeSvgs[i % snowflakeSvgs.length];
+    flake.className = 'snow-flake-svg';
+    const size = 18 + Math.random() * 28;
+    flake.style.width = size + 'px';
+    flake.style.left = Math.random() * 100 + '%';
+    flake.style.animationDuration = (14 + Math.random() * 12) + 's, ' + (6 + Math.random() * 8) + 's';
+    flake.style.animationDelay = (Math.random() * -20) + 's';
+    snowLayer.appendChild(flake);
+  }
+}
+
+
+// Each theme has its own custom SVG cursor image (Lỳ Lợm's designs).
+// We render it as an <img> following the mouse instead of CSS `cursor:`
+// because CSS cursor caps out at 128x128 and can't be styled/animated well.
+let curX = 0, curY = 0, curTrailX = 0, curTrailY = 0;
+
+const CURSOR_IMAGES = {
+  anniversary: 'assets/images/cursors/vlt-anni.svg',
+  tet:         'assets/images/cursors/tet.svg',
+  trungthu:    'assets/images/cursors/trungthu.svg',
+  valentine:   'assets/images/cursors/vlt-anni.svg',
+  christmas:   'assets/images/cursors/christmas.svg',
+  birthday:    'assets/images/cursors/birthday.svg',
+};
+
+function getCursorImg() {
+  return CURSOR_IMAGES[currentTheme] || CURSOR_IMAGES.anniversary;
+}
+
+function updateCursorImage() {
+  const img = document.getElementById('cursor-img');
+  if (img) img.src = getCursorImg();
+}
 
 function initCursor() {
   const wrap = document.getElementById('cursor');
@@ -79,8 +243,7 @@ function initCursor() {
   document.addEventListener('mousedown', () => document.body.classList.add('cursor-click'));
   document.addEventListener('mouseup',   () => document.body.classList.remove('cursor-click'));
 
-  const dot  = document.getElementById('cursor-dot');
-  const ring = document.getElementById('cursor-ring');
+  updateCursorImage();
 
   const interactables = 'a, button, [data-hover], .photo-card, .theme-option, .year-tab, .view-btn, .nav-links a';
   document.querySelectorAll(interactables).forEach(el => {
@@ -89,12 +252,10 @@ function initCursor() {
   });
 
   (function loop() {
-    ringX += (curX - ringX) * 0.13;
-    ringY += (curY - ringY) * 0.13;
-    dot.style.left  = curX + 'px';
-    dot.style.top   = curY + 'px';
-    ring.style.left = ringX + 'px';
-    ring.style.top  = ringY + 'px';
+    curTrailX += (curX - curTrailX) * 0.35;
+    curTrailY += (curY - curTrailY) * 0.35;
+    wrap.style.left = curTrailX + 'px';
+    wrap.style.top  = curTrailY + 'px';
     requestAnimationFrame(loop);
   })();
 }
