@@ -25,17 +25,36 @@ const CLOUDINARY = {
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, orderBy, Timestamp }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const app  = initializeApp(FIREBASE_CONFIG);
 const db   = getFirestore(app);
 const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
+
+// ── CHỈ 2 EMAIL NÀY ĐƯỢC UPLOAD ─────────────────
+// Điền email Google thật của Lỳ Lợm & Nghịch Ngợm vào đây
+const ALLOWED_EMAILS = [
+  "lylomemail@gmail.com",
+  "nghichngomemail@gmail.com",
+];
 
 // ── AUTH ─────────────────────────────────────────
 export async function login(email, password) {
   return signInWithEmailAndPassword(auth, email, password);
 }
+
+export async function loginWithGoogle() {
+  const result = await signInWithPopup(auth, googleProvider);
+  const email = result.user.email;
+  if (!ALLOWED_EMAILS.includes(email)) {
+    await signOut(auth);
+    throw new Error("EMAIL_NOT_ALLOWED");
+  }
+  return result;
+}
+
 export async function logout() {
   return signOut(auth);
 }
